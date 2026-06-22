@@ -12,31 +12,27 @@ void Board::reset() {
     }
 
     // Place white pieces
-    squares_[0] = Row{
-        Piece::makePiece(PieceType::Rook, Color::White),
-        Piece::makePiece(PieceType::Knight, Color::White),
-        Piece::makePiece(PieceType::Bishop, Color::White),
-        Piece::makePiece(PieceType::Queen, Color::White),
-        Piece::makePiece(PieceType::King, Color::White),
-        Piece::makePiece(PieceType::Bishop, Color::White),
-        Piece::makePiece(PieceType::Knight, Color::White),
-        Piece::makePiece(PieceType::Rook, Color::White)
-    };
+    squares_[0] = Row{Piece::makePiece(PieceType::Rook, Color::White),
+                      Piece::makePiece(PieceType::Knight, Color::White),
+                      Piece::makePiece(PieceType::Bishop, Color::White),
+                      Piece::makePiece(PieceType::Queen, Color::White),
+                      Piece::makePiece(PieceType::King, Color::White),
+                      Piece::makePiece(PieceType::Bishop, Color::White),
+                      Piece::makePiece(PieceType::Knight, Color::White),
+                      Piece::makePiece(PieceType::Rook, Color::White)};
     for (int file = 0; file < BOARD_SIZE; ++file) {
         squares_[1][file] = Piece::makePiece(PieceType::Pawn, Color::White);
     }
 
     // Place black pieces
-    squares_[7] = Row{
-        Piece::makePiece(PieceType::Rook, Color::Black),
-        Piece::makePiece(PieceType::Knight, Color::Black),
-        Piece::makePiece(PieceType::Bishop, Color::Black),
-        Piece::makePiece(PieceType::Queen, Color::Black),
-        Piece::makePiece(PieceType::King, Color::Black),
-        Piece::makePiece(PieceType::Bishop, Color::Black),
-        Piece::makePiece(PieceType::Knight, Color::Black),
-        Piece::makePiece(PieceType::Rook, Color::Black)
-    };
+    squares_[7] = Row{Piece::makePiece(PieceType::Rook, Color::Black),
+                      Piece::makePiece(PieceType::Knight, Color::Black),
+                      Piece::makePiece(PieceType::Bishop, Color::Black),
+                      Piece::makePiece(PieceType::Queen, Color::Black),
+                      Piece::makePiece(PieceType::King, Color::Black),
+                      Piece::makePiece(PieceType::Bishop, Color::Black),
+                      Piece::makePiece(PieceType::Knight, Color::Black),
+                      Piece::makePiece(PieceType::Rook, Color::Black)};
     for (int file = 0; file < BOARD_SIZE; ++file) {
         squares_[6][file] = Piece::makePiece(PieceType::Pawn, Color::Black);
     }

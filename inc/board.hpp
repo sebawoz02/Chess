@@ -7,8 +7,7 @@
 #include "piece.hpp"
 
 class Board {
-public:
-
+   public:
     static constexpr int BOARD_SIZE = 8;
     using Row = std::array<Piece, BOARD_SIZE>;
     using Grid = std::array<Row, BOARD_SIZE>;
@@ -19,8 +18,9 @@ public:
     void setPiece(int rank, int file, Piece piece);
     Piece getPiece(int rank, int file) const;
     std::string toString() const;
-private:
+
+   private:
     Grid squares_;
 };
 
-#endif // CHESS_BOARD_H
+#endif  // CHESS_BOARD_H

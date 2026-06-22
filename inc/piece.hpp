@@ -1,23 +1,11 @@
 #include <vector>
 
-enum class PieceType {
-    Empty,
-    Pawn, 
-    Knight, 
-    Bishop, 
-    Rook, 
-    Queen, 
-    King 
-};
+enum class PieceType { Empty, Pawn, Knight, Bishop, Rook, Queen, King };
 
-enum class Color {
-    None,
-    White, 
-    Black 
-};
+enum class Color { None, White, Black };
 
 class Piece {
-public:
+   public:
     PieceType type = PieceType::Empty;
     Color color = Color::None;
 
@@ -25,7 +13,9 @@ public:
 
     static char pieceToChar(Piece piece);
 
-    static std::vector<std::pair<size_t, size_t>> getPossibleMoves(const Piece& piece, const size_t rank, const size_t file);
+    static std::vector<std::pair<size_t, size_t>> getPossibleMoves(const Piece& piece,
+                                                                   const size_t rank,
+                                                                   const size_t file);
 
     int getValue() const;
 };

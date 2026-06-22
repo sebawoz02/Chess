@@ -1,8 +1,9 @@
 #include <gtest/gtest.h>
+
 #include "board.hpp"
 
 class BoardTest : public ::testing::Test {
-protected:
+   protected:
     Board board;
 };
 
@@ -38,14 +39,14 @@ TEST_F(BoardTest, GetPieceReturnsCorrectPiece) {
 // Test that reset initializes the board with the correct starting position
 TEST_F(BoardTest, ResetInitializesPawns) {
     board.reset();
-    
+
     // White pawns at rank 1
     for (size_t file = 0; file < Board::BOARD_SIZE; ++file) {
         Piece pawn = board.getPiece(1, file);
         EXPECT_EQ(pawn.type, PieceType::Pawn);
         EXPECT_EQ(pawn.color, Color::White);
     }
-    
+
     // Black pawns at rank 6
     for (size_t file = 0; file < Board::BOARD_SIZE; ++file) {
         Piece pawn = board.getPiece(6, file);
@@ -57,14 +58,12 @@ TEST_F(BoardTest, ResetInitializesPawns) {
 // Test that reset initializes white back rank correctly
 TEST_F(BoardTest, ResetInitializesWhiteBackRank) {
     board.reset();
-    
+
     // Expected order: Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook
-    PieceType expectedOrder[] = {
-        PieceType::Rook, PieceType::Knight, PieceType::Bishop,
-        PieceType::Queen, PieceType::King, PieceType::Bishop,
-        PieceType::Knight, PieceType::Rook
-    };
-    
+    PieceType expectedOrder[] = {PieceType::Rook,   PieceType::Knight, PieceType::Bishop,
+                                 PieceType::Queen,  PieceType::King,   PieceType::Bishop,
+                                 PieceType::Knight, PieceType::Rook};
+
     for (size_t file = 0; file < Board::BOARD_SIZE; ++file) {
         Piece piece = board.getPiece(0, file);
         EXPECT_EQ(piece.type, expectedOrder[file]);
@@ -75,14 +74,12 @@ TEST_F(BoardTest, ResetInitializesWhiteBackRank) {
 // Test that reset initializes black back rank correctly
 TEST_F(BoardTest, ResetInitializesBlackBackRank) {
     board.reset();
-    
+
     // Expected order: Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook
-    PieceType expectedOrder[] = {
-        PieceType::Rook, PieceType::Knight, PieceType::Bishop,
-        PieceType::Queen, PieceType::King, PieceType::Bishop,
-        PieceType::Knight, PieceType::Rook
-    };
-    
+    PieceType expectedOrder[] = {PieceType::Rook,   PieceType::Knight, PieceType::Bishop,
+                                 PieceType::Queen,  PieceType::King,   PieceType::Bishop,
+                                 PieceType::Knight, PieceType::Rook};
+
     for (size_t file = 0; file < Board::BOARD_SIZE; ++file) {
         Piece piece = board.getPiece(7, file);
         EXPECT_EQ(piece.type, expectedOrder[file]);
@@ -93,7 +90,7 @@ TEST_F(BoardTest, ResetInitializesBlackBackRank) {
 // Test that middle squares are empty after reset
 TEST_F(BoardTest, ResetEmptiesMiddleSquares) {
     board.reset();
-    
+
     for (size_t rank = 2; rank < 6; ++rank) {
         for (size_t file = 0; file < Board::BOARD_SIZE; ++file) {
             Piece piece = board.getPiece(rank, file);
@@ -107,14 +104,14 @@ TEST_F(BoardTest, ResetEmptiesMiddleSquares) {
 TEST_F(BoardTest, ResetCanBeCalledMultipleTimes) {
     board.reset();
     board.getPiece(4, 4);  // Make some queries
-    
+
     board.reset();  // Reset again
-    
+
     // Verify the board is still correctly initialized
     Piece whitePawn = board.getPiece(1, 0);
     EXPECT_EQ(whitePawn.type, PieceType::Pawn);
     EXPECT_EQ(whitePawn.color, Color::White);
-    
+
     Piece blackPawn = board.getPiece(6, 0);
     EXPECT_EQ(blackPawn.type, PieceType::Pawn);
     EXPECT_EQ(blackPawn.color, Color::Black);
@@ -123,23 +120,23 @@ TEST_F(BoardTest, ResetCanBeCalledMultipleTimes) {
 // Test piece value after reset
 TEST_F(BoardTest, PieceValuesAfterReset) {
     board.reset();
-    
+
     // Check pawn value
     Piece pawn = board.getPiece(1, 0);
     EXPECT_EQ(pawn.getValue(), 1);
-    
+
     // Check knight value
     Piece knight = board.getPiece(0, 1);
     EXPECT_EQ(knight.getValue(), 3);
-    
+
     // Check rook value
     Piece rook = board.getPiece(0, 0);
     EXPECT_EQ(rook.getValue(), 5);
-    
+
     // Check queen value
     Piece queen = board.getPiece(0, 3);
     EXPECT_EQ(queen.getValue(), 9);
-    
+
     // Check king value
     Piece king = board.getPiece(0, 4);
     EXPECT_EQ(king.getValue(), 0);
@@ -148,11 +145,11 @@ TEST_F(BoardTest, PieceValuesAfterReset) {
 // ----------- BOARD setPiece() TEST SECTION -----------
 TEST_F(BoardTest, SetPieceUpdatesSquare) {
     board.reset();
-    
+
     // Set a white queen at (4, 4)
     Piece newQueen = Piece::makePiece(PieceType::Queen, Color::White);
     board.setPiece(4, 4, newQueen);
-    
+
     Piece retrievedPiece = board.getPiece(4, 4);
     EXPECT_EQ(retrievedPiece.type, PieceType::Queen);
     EXPECT_EQ(retrievedPiece.color, Color::White);

@@ -1,10 +1,12 @@
-#include <string>
-#include <cctype>
-
 #include "piece.hpp"
 
-static void generateBishopMoves(const Piece& piece, const size_t rank, const size_t file, std::vector<std::pair<size_t, size_t>>& moves);
-static void generateRookMoves(const Piece& piece, const size_t rank, const size_t file, std::vector<std::pair<size_t, size_t>>& moves);
+#include <cctype>
+#include <string>
+
+static void generateBishopMoves(const Piece& piece, const size_t rank, const size_t file,
+                                std::vector<std::pair<size_t, size_t>>& moves);
+static void generateRookMoves(const Piece& piece, const size_t rank, const size_t file,
+                              std::vector<std::pair<size_t, size_t>>& moves);
 
 Piece Piece::makePiece(PieceType type, Color color) {
     Piece piece;
@@ -16,13 +18,27 @@ Piece Piece::makePiece(PieceType type, Color color) {
 char Piece::pieceToChar(Piece piece) {
     char c = '.';
     switch (piece.type) {
-        case PieceType::Pawn:   c = 'p'; break;
-        case PieceType::Knight: c = 'n'; break;
-        case PieceType::Bishop: c = 'b'; break;
-        case PieceType::Rook:   c = 'r'; break;
-        case PieceType::Queen:  c = 'q'; break;
-        case PieceType::King:   c = 'k'; break;
-        default:                c = '.'; break;
+        case PieceType::Pawn:
+            c = 'p';
+            break;
+        case PieceType::Knight:
+            c = 'n';
+            break;
+        case PieceType::Bishop:
+            c = 'b';
+            break;
+        case PieceType::Rook:
+            c = 'r';
+            break;
+        case PieceType::Queen:
+            c = 'q';
+            break;
+        case PieceType::King:
+            c = 'k';
+            break;
+        default:
+            c = '.';
+            break;
     }
     if (piece.color == Color::White && c != '.') {
         c = static_cast<char>(std::toupper(c));
@@ -32,18 +48,26 @@ char Piece::pieceToChar(Piece piece) {
 
 int Piece::getValue() const {
     switch (type) {
-        case PieceType::Pawn:   return 1;
-        case PieceType::Knight: return 3;
-        case PieceType::Bishop: return 3;
-        case PieceType::Rook:   return 5;
-        case PieceType::Queen:  return 9;
-        case PieceType::King:   return 0;
-        default:                return 0;
+        case PieceType::Pawn:
+            return 1;
+        case PieceType::Knight:
+            return 3;
+        case PieceType::Bishop:
+            return 3;
+        case PieceType::Rook:
+            return 5;
+        case PieceType::Queen:
+            return 9;
+        case PieceType::King:
+            return 0;
+        default:
+            return 0;
     }
 }
 
-std::vector<std::pair<size_t, size_t>> Piece::getPossibleMoves(const Piece& piece, const size_t rank, const size_t file)
-{
+std::vector<std::pair<size_t, size_t>> Piece::getPossibleMoves(const Piece& piece,
+                                                               const size_t rank,
+                                                               const size_t file) {
     if (piece.type == PieceType::Empty) {
         return {};
     }
@@ -69,7 +93,8 @@ std::vector<std::pair<size_t, size_t>> Piece::getPossibleMoves(const Piece& piec
             }
             break;
         case PieceType::Knight:
-            // Knights move in an "L" shape: two squares in one direction and then one square perpendicular
+            // Knights move in an "L" shape: two squares in one direction and then one square
+            // perpendicular
             for (int8_t dr : {-2, -1, 1, 2}) {
                 for (int8_t df : {-2, -1, 1, 2}) {
                     if (std::abs(dr) != std::abs(df)) {
@@ -115,7 +140,8 @@ std::vector<std::pair<size_t, size_t>> Piece::getPossibleMoves(const Piece& piec
     return moves;
 }
 
-static void generateBishopMoves(const Piece& piece, const size_t rank, const size_t file, std::vector<std::pair<size_t, size_t>>& moves) {
+static void generateBishopMoves(const Piece& piece, const size_t rank, const size_t file,
+                                std::vector<std::pair<size_t, size_t>>& moves) {
     for (int8_t dr : {-1, 1}) {
         for (int8_t df : {-1, 1}) {
             size_t newRank = rank;
@@ -123,23 +149,24 @@ static void generateBishopMoves(const Piece& piece, const size_t rank, const siz
             while (newRank > 0 && newRank < 7 && newFile < 7 && newFile > 0) {
                 newRank += dr;
                 newFile += df;
-                moves.emplace_back(newRank, newFile);                 
+                moves.emplace_back(newRank, newFile);
             }
         }
     }
 }
 
-static void generateRookMoves(const Piece& piece, const size_t rank, const size_t file, std::vector<std::pair<size_t, size_t>>& moves) {
+static void generateRookMoves(const Piece& piece, const size_t rank, const size_t file,
+                              std::vector<std::pair<size_t, size_t>>& moves) {
     for (int8_t dr : {-1, 1}) {
-    size_t newRank = rank;
-    while (0 < newRank && newRank < 7) {
-        newRank += dr;
-        moves.emplace_back(newRank, file);
+        size_t newRank = rank;
+        while (0 < newRank && newRank < 7) {
+            newRank += dr;
+            moves.emplace_back(newRank, file);
+        }
+        size_t newFile = file;
+        while (0 < newFile && newFile < 7) {
+            newFile += dr;
+            moves.emplace_back(rank, newFile);
+        }
     }
-    size_t newFile = file;
-    while (0 < newFile && newFile < 7) {
-        newFile += dr;
-        moves.emplace_back(rank, newFile);
-    }
-}
 }
