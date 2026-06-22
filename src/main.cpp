@@ -1,6 +1,8 @@
 #include <iostream>
+#include "board.hpp"
 
 int main() {
-    std::cout << "Hello, Chess!" << std::endl;
+    Board board;
+    std::cout << board.toString();
     return 0;
 }

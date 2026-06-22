@@ -1,5 +1,8 @@
 cmake_minimum_required(VERSION 3.10)
 
+# Suppress CMake developer warnings
+set(CMAKE_SUPPRESS_DEVELOPER_WARNINGS TRUE CACHE BOOL "" FORCE)
+
 project(Chess LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -13,7 +16,10 @@ FetchContent_Declare(
   DOWNLOAD_EXTRACT_TIMESTAMP TRUE
 )
 
-add_executable(Chess src/main.cpp )
+add_executable(Chess src/main.cpp 
+    src/board.cpp
+    src/piece.cpp
+)
 
 target_include_directories(Chess PRIVATE ${CMAKE_SOURCE_DIR}/inc)
 
