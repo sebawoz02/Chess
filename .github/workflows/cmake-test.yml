@@ -25,4 +25,5 @@ jobs:
 
       - name: Check compilation
         run: |
-          cmake --build build --parallel
+          cd build
+          make

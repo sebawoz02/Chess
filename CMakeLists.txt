@@ -4,9 +4,30 @@ cmake_minimum_required(VERSION 3.10)
 set(CMAKE_SUPPRESS_DEVELOPER_WARNINGS TRUE CACHE BOOL "" FORCE)
 
 project(Chess LANGUAGES CXX)
+
+if(NOT DEFINED CMAKE_CXX_COMPILER)
+  find_program(GPP_EXECUTABLE g++)
+  if(GPP_EXECUTABLE)
+    set(CMAKE_CXX_COMPILER "${GPP_EXECUTABLE}" CACHE STRING "C++ compiler" FORCE)
+  endif()
+endif()
+
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
+
+set(COMMON_WARNING_FLAGS
+    $<$<CXX_COMPILER_ID:GNU>:-Wall>
+    $<$<CXX_COMPILER_ID:GNU>:-Wextra>
+    $<$<CXX_COMPILER_ID:GNU>:-Wpedantic>
+    $<$<CXX_COMPILER_ID:GNU>:-Wno-unused-parameter>
+)
+
+set(CHESS_SOURCES
+    src/main.cpp
+    src/board.cpp
+    src/piece.cpp
+)
 
 include(FetchContent)
 
@@ -16,22 +37,11 @@ FetchContent_Declare(
   DOWNLOAD_EXTRACT_TIMESTAMP TRUE
 )
 
-add_executable(Chess src/main.cpp 
-    src/board.cpp
-    src/piece.cpp
-)
+add_executable(Chess ${CHESS_SOURCES})
 
 target_include_directories(Chess PRIVATE ${CMAKE_SOURCE_DIR}/inc)
 
-target_compile_options(Chess PRIVATE
-    $<$<CXX_COMPILER_ID:GNU>:-Wall>
-    $<$<CXX_COMPILER_ID:GNU>:-Wextra>
-    $<$<CXX_COMPILER_ID:GNU>:-Wpedantic>
-    $<$<CXX_COMPILER_ID:GNU>:-Wconversion>
-    $<$<CXX_COMPILER_ID:GNU>:-Wshadow>
-    $<$<CXX_COMPILER_ID:GNU>:-Wsign-conversion>
-    $<$<CXX_COMPILER_ID:GNU>:-Wno-unused-parameter>
-)
+target_compile_options(Chess PRIVATE ${COMMON_WARNING_FLAGS})
 
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 
